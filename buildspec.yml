@@ -1,10 +1,9 @@
---
-version: 0.2
+version: 0.3
 
 env:
    parameter-store:
      JWT_SECRET: JWT_SECRET
-     
+
 phases:
   install:
     runtime-versions:
@@ -41,5 +40,23 @@ phases:
       - aws eks update-kubeconfig --name $EKS_CLUSTER_NAME --role-arn $EKS_KUBECTL_ROLE_ARN
       - kubectl apply -f simple_jwt_api.yml 
       - printf '[{"name":"simple_jwt_api","imageUri":"%s"}]' $REPOSITORY_URI:$TAG > build.json
+Resources:
+  WebServerInstance:
+    Type: 'AWS::EC2::Instance'
+    Metadata:
+      'AWS::CloudFormation::Init':
+        configSets:
+          InstallAndRun:
+            - Install
+            - Configure
+        Install:
+          packages:
+            yum:
+              mysql: []
+              mysql-server: []
+              mysql-libs: []
+              httpd: []
+              php: []
+              php-mysql: []
 artifacts:
   files: build.json

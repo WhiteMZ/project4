@@ -56,7 +56,7 @@ Parameters:
 
   KubectlRoleName:
     Type: String
-    Default: UdacityFlaskDeployCBKubectlRole
+    Default: myEKSWorkerNodeRole2
     Description: IAM role used by kubectl to interact with EKS cluster
     MinLength: 3
     MaxLength: 100
@@ -347,7 +347,7 @@ Resources:
                 Provider: GitHub
               Configuration:
                 Owner: !Ref GitHubUser
-                Repo: !Ref GitSourceRepo
+                Repo: !Ref GitHubUser
                 Branch: !Ref GitBranch
                 OAuthToken: !Ref GitHubToken
               OutputArtifacts:
